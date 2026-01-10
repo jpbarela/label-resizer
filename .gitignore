@@ -4,3 +4,6 @@
 
 # temporary file
 temp/*
+
+# build/artifacts
+**/*.pyc
