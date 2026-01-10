@@ -1,0 +1,6 @@
+# dev tools
+.vscode/
+.python-version
+
+# temporary file
+temp/*
