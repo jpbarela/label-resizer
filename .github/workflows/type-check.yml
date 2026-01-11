@@ -1,0 +1,23 @@
+name: Type Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v4
+      - name: Install the project dependencies
+        run: poetry install
+      - name: Run type check
+        run: make type-check
