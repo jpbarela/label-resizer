@@ -5,7 +5,7 @@ LEGAL_WIDTH = 8.5 * INCH_UNITS
 LEGAL_HEIGHT = 14 * INCH_UNITS
 
 
-def transform_pdf(input_file: str, output_file: str) -> None:
+def transform_pdf(input_file: str, output_file: str, position: int) -> None:
     """
     Reads the file identified by input_file transforms the file and outputs it to the output_file
     """
@@ -13,14 +13,14 @@ def transform_pdf(input_file: str, output_file: str) -> None:
     writer = PdfWriter()
 
     dest_page = writer.add_blank_page(width=LEGAL_WIDTH, height=LEGAL_HEIGHT)
-    position = 0
+    current_position = position
     for page in reader.pages:
+        if current_position != 0 and current_position % 4 == 0:
+            dest_page = writer.add_blank_page(width=LEGAL_WIDTH, height=LEGAL_HEIGHT)
         rotated_page = _rotate_page(page)
         dest_page.merge_transformed_page(
-            rotated_page, _calculate_translation(position))
-        position += 1
-        if position % 4 == 0:
-            dest_page = writer.add_blank_page(width=LEGAL_WIDTH, height=LEGAL_HEIGHT)
+            rotated_page, _calculate_translation(current_position))
+        current_position += 1
 
     writer.write(output_file)
 
